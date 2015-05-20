@@ -36,4 +36,4 @@ npm install
       ┣ js/
 	  ┣ css/
 ###Eslint
-You can modify the eslint style by editing the ==.eslintrc== file
+You can modify the eslint style by editing the ```.eslintrc``` file
