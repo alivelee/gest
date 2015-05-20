@@ -1,5 +1,5 @@
 // Load Gulp plugin
-var gulp = require("gulp");
+var gulp = require('gulp');
 var autoprefixer = require('gulp-autoprefixer');
 var eslint = require('gulp-eslint');
 var csscomb = require('gulp-csscomb');
@@ -8,9 +8,9 @@ var uglify = require('gulp-uglify');
 var connect = require('gulp-connect');
 var minifyCss = require('gulp-minify-css');
 //Connect Task
-gulp.task("connect",function(){
+gulp.task('connect',function(){
 	connect.server({
-		root:"src",
+		root:'src',
 		livereload:true
 	});
 });
@@ -24,11 +24,16 @@ gulp.task('compile:css', function () {
             cascade: false
         }))
         .pipe(csscomb())
-        .pipe(minifyCss({compatibility: 'ie8'}))
         .pipe(connect.reload())
-    .pipe(gulp.dest('./build/css'));
+        .pipe(gulp.dest('./src/css'));
 });
- 
+
+//Minify CSS Task
+gulp.task('minify:css',function(){
+	 gulp.src('./src/css/*.css')
+			   .pipe(minifyCss())
+			   .pipe(gulp.dest('./build/css/'))
+	});
  //Eslint Task
 gulp.task('eslint',function(){
 		return gulp.src(['./src/js/**/*.js'])
@@ -47,10 +52,11 @@ gulp.task('html',function(){
 	});
 
 //Watch Task
-gulp.task("watch",["compile:css"],function () {
-	gulp.watch(["./src/sass/**/*.scss"],["compile:css"]);
-	gulp.watch(["./src/js/**/*.js"],["eslint"]);
-	gulp.watch(["./src/index.html"],["html"]);
+gulp.task('watch',['compile:css','minify:css'],function () {
+	gulp.watch(['./src/sass/**/*.scss'],['compile:css']);
+	gulp.watch(['./src/css/*.css'],['minify:css']);
+	gulp.watch(['./src/js/**/*.js'],['eslint']);
+	gulp.watch(['./src/index.html'],['html']);
 }
 );
-gulp.task("default",["connect","watch"]);
+gulp.task('default',['connect','watch']);
