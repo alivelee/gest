@@ -36,7 +36,7 @@ gulp.task('eslint',function(){
 		.pipe(eslint.format())
 		.pipe(eslint.failOnError())
 		.pipe(connect.reload())
-		.pipe(uglify());
+		.pipe(uglify())
 		.pipe(gulp.dest('./build/js/*.js'));
 	});
 
