@@ -1,5 +1,5 @@
 # Gest 1.0
-A boilerplate for rapidly depolying front-end preparation
+A boilerplate for rapidly depolying front-end scaffold
 ---
 # Getting Started
 
@@ -35,4 +35,5 @@ npm install
 	┣┳ build/
       ┣ js/
 	  ┣ css/
-	
+###Eslint
+You can modify the eslint style by editing the ==.eslintrc== file
