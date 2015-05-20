@@ -6,7 +6,7 @@ var csscomb = require('gulp-csscomb');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var connect = require('gulp-connect');
-var csso = require('gulp-csso');
+var minifyCss = require('gulp-minify-css');
 //Connect Task
 gulp.task("connect",function(){
 	connect.server({
@@ -24,7 +24,7 @@ gulp.task('compile:css', function () {
             cascade: false
         }))
         .pipe(csscomb())
-        .pipe(csso())
+        .pipe(minifyCss({compatibility: 'ie8'}))
         .pipe(connect.reload())
     .pipe(gulp.dest('./src/css'));
 });
