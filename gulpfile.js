@@ -26,7 +26,7 @@ gulp.task('compile:css', function () {
         .pipe(csscomb())
         .pipe(minifyCss({compatibility: 'ie8'}))
         .pipe(connect.reload())
-    .pipe(gulp.dest('./src/css'));
+    .pipe(gulp.dest('./build/css'));
 });
  
  //Eslint Task
@@ -37,6 +37,7 @@ gulp.task('eslint',function(){
 		.pipe(eslint.failOnError())
 		.pipe(connect.reload())
 		.pipe(uglify());
+		.pipe(gulp.dest('./build/js/*.js'));
 	});
 
 //Html Task
