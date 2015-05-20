@@ -3,11 +3,11 @@ A boilerplate for rapidly depolying front-end preparation
 ---
 # Getting Started
 
-### Requirement
+## Requirement
 * Node.js 
 * Gulp
----
-###Setting up
+
+##Setting up
 1.Install Node.js
 > Recommend use [nvm](https://github.com/creationix/nvm)
 
