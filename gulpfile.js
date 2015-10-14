@@ -9,8 +9,8 @@ var uglify = require('gulp-uglify');
 var minifyCss = require('gulp-minify-css');
 var babel = require("gulp-babel");
 
-//Sass(Scss) Task 
-gulp.task('compile:css', function () {
+//Sass(Scss) Task (Development Only)
+gulp.task('compile:Sass', function () {
   gulp.src('./src/sass/**/*.scss')
     .pipe(sass.sync().on('error', sass.logError))
     .pipe(autoprefixer({
@@ -21,7 +21,7 @@ gulp.task('compile:css', function () {
         .pipe(gulp.dest('./src/css'));
 });
 
-//Minify CSS Task
+//Minify CSS Task (Production Only)
 gulp.task('minify:css',function(){
 	 gulp.src('./src/css/*.css')
 			   .pipe(minifyCss())
@@ -37,6 +37,7 @@ gulp.task('babel:js',function () {
 
 
 
+//lint and minify JS Task (Development)
 gulp.task('eslint',function(){
 		return gulp.src(['./src/js/**/*.js'])
 		.pipe(eslint())
