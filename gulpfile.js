@@ -2,7 +2,6 @@
 var gulp = require('gulp');
 var browserSync = require('browser-sync').create();
 var autoprefixer = require('gulp-autoprefixer');
-var eslint = require('gulp-eslint');
 var csscomb = require('gulp-csscomb');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
@@ -22,11 +21,11 @@ gulp.task('serve', function() {
 });
 
 //Sass(Scss) Task (Development Only)
-gulp.task('compile:Sass', function () {
+gulp.task('sass', function () {
   gulp.src('./src/sass/**/*.scss')
     .pipe(sass.sync().on('error', sass.logError))
     .pipe(autoprefixer({
-            browsers: ['> 1%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1'],
+            browsers: ['> 1%', 'last 2 versions', 'Firefox ESR'],
             cascade: false
         }))
         .pipe(csscomb())
@@ -55,15 +54,12 @@ gulp.task('babel:js',function () {
 gulp.task('js-watch', ['babel:js'], browserSync.reload);
 
 
-//lint and minify JS Task (Development)
-gulp.task('eslint',function(){
-		return gulp.src(['./src/js/**/*.js'])
-		.pipe(eslint())
-		.pipe(eslint.format())
-		.pipe(eslint.failOnError())
-		.pipe(uglify())
-		.pipe(gulp.dest('./build/js/*.js'));
-	});
+//Custom eslint without gulp-eslint from
+//http://bl.ocks.org/tschaub/b7fed443597b979ceb28
+//Running ESLint with Gulp
+
+// run eslint without an additional plugin
+gulp.task('lint', function(done) {
 
   // patterns with the same form as gulp.src(patterns)
   var patterns = ['lib/**/*.{js}'];
