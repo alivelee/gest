@@ -1,10 +1,10 @@
 # Gest 1.0
-A boilerplate for rapidly depolying front-end scaffold
+A boilerplate for rapidly deploying front-end scaffold
 ---
 # Getting Started
 
 ## Requirement
-* Node.js 
+* Node.js
 * Gulp
 
 ##Setting up
