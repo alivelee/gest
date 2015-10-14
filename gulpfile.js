@@ -10,6 +10,16 @@ var minifyCss = require('gulp-minify-css');
 var babel = require("gulp-babel");
 var eslint = require('eslint/lib/cli');
 var globby = require('globby');
+//Static Server
+gulp.task('serve', function() {
+    browserSync.init({
+        server: {
+            baseDir: "./"
+        }
+    });
+    //Watch HTML File Change
+    gulp.watch("*.html").on("change", browserSync.reload);
+});
 
 //Sass(Scss) Task (Development Only)
 gulp.task('compile:Sass', function () {
@@ -20,23 +30,29 @@ gulp.task('compile:Sass', function () {
             cascade: false
         }))
         .pipe(csscomb())
-        .pipe(gulp.dest('./src/css'));
+        .pipe(gulp.dest('./src/css'))
+        .pipe(browserSync.stream());
 });
 
 //Minify CSS Task (Production Only)
 gulp.task('minify:css',function(){
 	 gulp.src('./src/css/*.css')
-			   .pipe(minifyCss())
-			   .pipe(gulp.dest('./build/css/'))
+	 .pipe(minifyCss())
+	 .pipe(gulp.dest('./build/css/'))
+   .pipe(browserSync.stream());
 	});
 
 // Babel Task (Production)
 gulp.task('babel:js',function () {
 	gulp.src('./src/js/**/*.js')
 	.pipe(babel())
-  .pipe(gulp.dest("dist"));
+  .pipe(gulp.dest("./build/js"))
+  .pipe(browserSync.stream());
 });
 
+// create a task that ensures the `js` task is complete before
+// reloading browsers
+gulp.task('js-watch', ['babel:js'], browserSync.reload);
 
 
 //lint and minify JS Task (Development)
@@ -69,15 +85,10 @@ gulp.task('eslint',function(){
   });
 });
 //Watch Task
-gulp.task('watch',['compile:css','minify:css','eslint'],function () {
-	//Static Server
-	browserSync.init({
-        server: "./"
-    });
-	//Watch HTML File Change
-	gulp.watch("app/*.html").on('change', browserSync.reload);
-	gulp.watch(['./src/sass/**/*.scss'],['compile:Sass']);
+gulp.task('watch',function () {
+	gulp.watch(['./src/sass/**/*.scss'],['sass']);
 	gulp.watch(['./src/css/*.css'],['minify:css']);
-	gulp.watch(['./src/js/**/*.js'],['eslint']);
+  gulp.watch(['./src/js/**/*.js'],['js-watch']);
+	gulp.watch(['./src/js/**/*.js'],['lint']);
 });
-gulp.task('default',['connect','watch']);
+gulp.task('default',['serve','watch']);
