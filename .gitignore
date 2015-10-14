@@ -16,3 +16,6 @@ Thumbs.db
 
 # npm specific files
 node_modules
+
+#
+.html
