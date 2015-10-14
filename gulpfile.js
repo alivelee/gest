@@ -8,6 +8,8 @@ var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var minifyCss = require('gulp-minify-css');
 var babel = require("gulp-babel");
+var eslint = require('eslint/lib/cli');
+var globby = require('globby');
 
 //Sass(Scss) Task (Development Only)
 gulp.task('compile:Sass', function () {
@@ -47,6 +49,25 @@ gulp.task('eslint',function(){
 		.pipe(gulp.dest('./build/js/*.js'));
 	});
 
+  // patterns with the same form as gulp.src(patterns)
+  var patterns = ['lib/**/*.{js}'];
+
+  globby(patterns, function(err, paths) {
+    if (err) {
+      // unexpected failure, include stack
+      done(err);
+      return;
+    }
+    // additional CLI options can be added here
+    var code = eslint.execute(paths.join(' '));
+    if (code) {
+      // eslint output already written, wrap up with a short message
+      done(new gutil.PluginError('lint', new Error('ESLint error')));
+      return;
+    }
+    done();
+  });
+});
 //Watch Task
 gulp.task('watch',['compile:css','minify:css','eslint'],function () {
 	//Static Server
