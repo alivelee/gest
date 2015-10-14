@@ -7,6 +7,7 @@ var csscomb = require('gulp-csscomb');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
 var minifyCss = require('gulp-minify-css');
+var babel = require("gulp-babel");
 
 //Sass(Scss) Task 
 gulp.task('compile:css', function () {
@@ -26,7 +27,16 @@ gulp.task('minify:css',function(){
 			   .pipe(minifyCss())
 			   .pipe(gulp.dest('./build/css/'))
 	});
- //Eslint Task
+
+// Babel Task (Production)
+gulp.task('babel:js',function () {
+	gulp.src('./src/js/**/*.js')
+	.pipe(babel())
+  .pipe(gulp.dest("dist"));
+});
+
+
+
 gulp.task('eslint',function(){
 		return gulp.src(['./src/js/**/*.js'])
 		.pipe(eslint())
