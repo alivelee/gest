@@ -9,6 +9,18 @@ var minifyCss = require('gulp-minify-css');
 var babel = require("gulp-babel");
 var eslint = require('eslint/lib/cli');
 var globby = require('globby');
+var imagemin = require('gulp-imagemin');
+var pngquant = require('imagemin-pngquant');
+//img optimization
+gulp.task('img', function () {
+    return gulp.src('./src/images/*')
+        .pipe(imagemin({
+            progressive: true,
+            svgoPlugins: [{removeViewBox: false}],
+            use: [pngquant()]
+        }))
+        .pipe(gulp.dest('dist/images'));
+});
 //Static Server
 gulp.task('serve', function() {
     browserSync.init({
@@ -86,5 +98,6 @@ gulp.task('watch',function () {
 	gulp.watch(['./src/css/*.css'],['minify:css']);
   gulp.watch(['./src/js/**/*.js'],['js-watch']);
 	gulp.watch(['./src/js/**/*.js'],['lint']);
+  gulp.watch(['./src/images/*'],['img']);
 });
 gulp.task('default',['serve','watch']);
