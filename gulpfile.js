@@ -11,9 +11,11 @@ var eslint = require('eslint/lib/cli');
 var globby = require('globby');
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
+var webp = require('gulp-webp');
 //img optimization
 gulp.task('img', function () {
     return gulp.src('./src/images/*')
+        .pipe(webp())
         .pipe(imagemin({
             progressive: true,
             svgoPlugins: [{removeViewBox: false}],
