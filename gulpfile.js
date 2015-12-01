@@ -15,7 +15,7 @@ var webp = require('gulp-webp');
 //img optimization
 gulp.task('img', function () {
     return gulp.src('./src/images/*')
-        .pipe(webp())
+        //.pipe(webp())
         .pipe(imagemin({
             progressive: true,
             svgoPlugins: [{removeViewBox: false}],
