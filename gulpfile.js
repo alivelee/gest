@@ -5,6 +5,7 @@ var autoprefixer = require('gulp-autoprefixer');
 var csscomb = require('gulp-csscomb');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
+//updated plugin
 var cssnano = require('gulp-cssnano');
 var babel = require("gulp-babel");
 var eslint = require('eslint/lib/cli');
@@ -50,6 +51,7 @@ gulp.task('sass', function () {
 //Minify CSS Task (Production Only)
 gulp.task('minify:css',function(){
 	 gulp.src('./src/css/*.css')
+   //remove cssMinify
    .pipe(cssnano())
 	 .pipe(gulp.dest('./build/css/'))
    .pipe(browserSync.stream());
