@@ -8,7 +8,6 @@ var uglify = require('gulp-uglify');
 //updated plugin
 var cssnano = require('gulp-cssnano');
 var babel = require("gulp-babel");
-var eslint = require('eslint/lib/cli');
 var globby = require('globby');
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
@@ -70,32 +69,6 @@ gulp.task('babel:js',function () {
 gulp.task('js-watch', ['babel:js'], browserSync.reload);
 
 
-//Custom eslint without gulp-eslint from
-//http://bl.ocks.org/tschaub/b7fed443597b979ceb28
-//Running ESLint with Gulp
-
-// run eslint without an additional plugin
-gulp.task('lint', function(done) {
-
-  // patterns with the same form as gulp.src(patterns)
-  var patterns = ['lib/**/*.{js}'];
-
-  globby(patterns, function(err, paths) {
-    if (err) {
-      // unexpected failure, include stack
-      done(err);
-      return;
-    }
-    // additional CLI options can be added here
-    var code = eslint.execute(paths.join(' '));
-    if (code) {
-      // eslint output already written, wrap up with a short message
-      done(new gutil.PluginError('lint', new Error('ESLint error')));
-      return;
-    }
-    done();
-  });
-});
 //Watch Task
 gulp.task('watch',function () {
 	gulp.watch(['./src/sass/**/*.scss'],['sass']);
