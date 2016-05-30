@@ -7,61 +7,60 @@ var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
 //updated plugin
 var cssnano = require('gulp-cssnano');
-var babel = require("gulp-babel");
+var babel = require('gulp-babel');
 var globby = require('globby');
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 var webp = require('gulp-webp');
 //img optimization
 gulp.task('img', function () {
-    return gulp.src('./src/images/*')
+    return gulp.src('assets/images/*')
         //.pipe(webp())
         .pipe(imagemin({
             progressive: true,
             svgoPlugins: [{removeViewBox: false}],
             use: [pngquant()]
         }))
-        .pipe(gulp.dest('dist/images'));
+        .pipe(gulp.dest('build/images'));
 });
 //Static Server
 gulp.task('serve', function() {
     browserSync.init({
         server: {
-            baseDir: "./"
+            baseDir: './'
         }
     });
     //Watch HTML File Change
-    gulp.watch("*.html").on("change", browserSync.reload);
+    gulp.watch('*.html').on('change', browserSync.reload);
 });
 
 //Sass(Scss) Task (Development Only)
 gulp.task('sass', function () {
-  gulp.src('./src/sass/**/*.scss')
+  gulp.src('assets/Sass/**/*.scss')
     .pipe(sass.sync().on('error', sass.logError))
     .pipe(autoprefixer({
             browsers: ['> 1%', 'last 2 versions', 'Firefox ESR'],
             cascade: false
         }))
         .pipe(csscomb())
-        .pipe(gulp.dest('./src/css'))
+        .pipe(gulp.dest('build/css'))
         .pipe(browserSync.stream());
 });
 
 //Minify CSS Task (Production Only)
 gulp.task('minify:css',function(){
-	 gulp.src('./src/css/*.css')
+	 gulp.src('assets/css/*.css')
    //remove cssMinify
    .pipe(cssnano())
-	 .pipe(gulp.dest('./build/css/'))
+	 .pipe(gulp.dest('build/css/'))
    .pipe(browserSync.stream());
 	});
 
 // Babel Task (Production)
 gulp.task('babel:js',function () {
-	gulp.src('./src/js/**/*.js')
+	gulp.src('assets/js/**/*.js')
 	.pipe(babel())
-  .pipe(gulp.dest("./build/js"))
-  .pipe(browserSync.stream());
+  .pipe(gulp.dest('build/js'))
 });
 
 // create a task that ensures the `js` task is complete before
