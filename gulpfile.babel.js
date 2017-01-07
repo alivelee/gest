@@ -8,6 +8,12 @@ import gulpLoadPlugins from 'gulp-load-plugins';
 const plugins = gulpLoadPlugins();
 const reload = browserSync.reload;
 
+gulp.task('lint', () =>
+  gulp.src(['app/scripts/**/*.js'])
+    .pipe(plugins.eslint())
+    .pipe(plugins.eslint.format())
+);
+
 gulp.task('styles',() => {
 	const AUTOPREFIXER_BROWSERS = [
     'ie >= 10',
