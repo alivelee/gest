@@ -1,5 +1,5 @@
-# Gest 1.0
-A boilerplate for rapidly deploying front-end scaffold
+# Gest 2.0
+A gulp-based boilerplate for rapidly deploying front-end scaffold
 ---
 # Getting Started
 
@@ -26,16 +26,9 @@ npm install
 ```
 ---
 
-###File Structure
-	gest/
-	┣┳ src/
-	  ┣ js/
-	  ┣ css/
-	  ┣ sass/
-	┣┳ build/
-      ┣ js/
-	  ┣ css/
+###Changelog
 
+2.0
+-- change to gulp 3.9 based
+-- use ES6 version of gulpfile
 
-###Eslint
-You can modify the eslint style by editing the ```.eslintrc``` file
