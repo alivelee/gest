@@ -9,7 +9,6 @@ const plugins = gulpLoadPlugins();
 const reload = browserSync.reload;
 
 gulp.task('lint', () =>
-  gulp.src(['app/scripts/**/*.js'])
   gulp.src(['app/scripts/**/*.js','!node_modules/**'])
     .pipe(plugins.eslint())
     .pipe(plugins.eslint.format())
@@ -32,16 +31,33 @@ gulp.task('styles',() => {
   		'app/src/styles/**/*.scss',
   		'app/src/styles/**/*.css'
   	])
+      .pipe(plugins.newer('app/dist/styles'))
   		.pipe(plugins.sourcemaps.init())
   		.pipe(plugins.sass({
      		precision: 10
     	}).on('error', plugins.sass.logError))
     	.pipe(plugins.autoprefixer(AUTOPREFIXER_BROWSERS))
+      .pipe(plugins.if('*.css',plugins.cssnano()))
     	.pipe(plugins.sourcemaps.write('./'))
     	.pipe(gulp.dest('app/dist/styles'));
 });
 
-gulp.task('serve',['styles'], () => {
+gulp.task('scripts', () => 
+  gulp.src([
+    './app/src/scripts/main.js'
+    //other files
+    ])
+      .pipe(plugins.newer('app/dist'))
+      .pipe(plugins.sourcemaps.init())
+      .pipe(plugins.babel())
+      .pipe(plugins.sourcemaps.write())
+      .pipe(plugins.concat('main.min.js'))
+      .pipe(plugins.uglify({preserveComments: 'some'}))
+      .pipe(plugins.size({title:'scripts'}))
+      .pipe(plugins.sourcemaps.write('.'))
+      .pipe(gulp.dest('app/dist/scripts'))
+);
+gulp.task('serve',['styles','scripts'], () => {
 	browserSync({
 		notify: false,
 		server:'app',
@@ -49,4 +65,5 @@ gulp.task('serve',['styles'], () => {
 	});
 	gulp.watch(['app/**/*.html'],reload);
 	gulp.watch(['app/src/styles/**/*.{scss,css}'],['styles',reload]);
+  gulp.watch(['app/src/scripts/**/*.js'],['lint','scripts',reload])
 });
