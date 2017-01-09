@@ -10,8 +10,10 @@ const reload = browserSync.reload;
 
 gulp.task('lint', () =>
   gulp.src(['app/scripts/**/*.js'])
+  gulp.src(['app/scripts/**/*.js','!node_modules/**'])
     .pipe(plugins.eslint())
     .pipe(plugins.eslint.format())
+    .pipe(plugins.if(!browserSync.active, plugins.eslint.failAfterError()))
 );
 
 gulp.task('styles',() => {
