@@ -1,7 +1,6 @@
 {
-    "extends":"airbub"
+    "extends":"airbub",
     "env": {
         "browser": true
-    },
-    
+    }
 }
